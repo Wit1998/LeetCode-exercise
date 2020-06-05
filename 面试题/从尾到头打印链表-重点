@@ -1,0 +1,49 @@
+面试题06. 从尾到头打印链表
+输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。
+示例 1：
+输入：head = [1,3,2]
+输出：[2,3,1]
+限制：
+0 <= 链表长度 <= 10000
+
+解题思路
+创建一个新的切片，用来存放head打印出的数组，
+然后把该切片收尾调换
+返回切片
+
+当然还有其他的方案，包括使用栈、递归、等方法。
+
+代码
+
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func reversePrint(head *ListNode) []int {
+    if head == nil {
+        return nil
+    }
+
+    //声明一个空的slice
+     res := []int{}
+    for head != nil {
+      res = append(res, head.Val)
+        head = head.Next
+    }
+
+    //转换
+    for i, j := 0, len(res) - 1 ; i < j ; {
+        res[i], res[j] = res[j], res[i]
+        i++
+        j--
+    }
+    return res
+}
+
+作者：wit1998
+链接：https://leetcode-cn.com/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/solution/cong-wei-dao-tou-da-yin-lian-biao-by-wit1998-2/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
