@@ -1,0 +1,54 @@
+面试题11. 旋转数组的最小数字
+把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。例如，数组 [3,4,5,1,2] 为 [1,2,3,4,5] 的一个旋转，该数组的最小值为1。  
+
+示例 1：
+
+输入：[3,4,5,1,2]
+输出：1
+示例 2：
+
+输入：[2,2,2,0,1]
+输出：0
+
+解题思路
+要找寻该题的规律，首先这是一个旋转数组，简单解释，就是由两个递增数组拼接在一起的数组（如果旋转个数为0，则是一个）。
+因此，最小值很大概率在中间，可以使用二分法。
+我开始考虑的是设数组第一个数为最小，把数组前后调换，调换后的数组由两个递增变成了两个递减，且前一个数组肯定比后面一个数组小，因此直接一一比较，很快就能得出最小值。然后，如果数组中出现后一个数比前面的最小值大（两数相等时还不能确定就是最小数，可能最小值还在后面），说明已经到了第二个递减数列，直接break。
+
+代码
+func minArray(numbers []int) int {
+    //这个方法不好
+    // min := numbers[0]
+    // j := len(numbers) - 1
+    // for i := 0 ; i <= j; i++ {
+    //     numbers[i],numbers[j] = numbers[j],numbers[i]
+    //     j--
+    // }
+    // for i,v := range numbers {
+        
+        
+    //     if min > v {
+    //         min = v
+    //     }
+    //     if i <= j - 1 && min < numbers[i + 1] {
+    //         break
+    //     }
+    // }
+    // return min
+    
+    //二分法
+    left, right := 0, len(numbers) - 1
+    for left <= right {
+        mid := (left + right) / 2 
+        if  numbers[mid] > numbers[right] {//说明最小值在右边
+            left = mid + 1
+        }else {//反之则在左边
+            right = right - 1
+        }
+    }
+    return numbers[left]
+
+作者：wit1998
+链接：https://leetcode-cn.com/problems/xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof/solution/xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-by-wit1998/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
