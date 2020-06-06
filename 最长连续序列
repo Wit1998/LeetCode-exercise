@@ -1,0 +1,45 @@
+128. 最长连续序列
+给定一个未排序的整数数组，找出最长连续序列的长度。
+要求算法的时间复杂度为 O(n)。
+示例:
+输入: [100, 4, 200, 1, 3, 2]
+输出: 4
+解释: 最长连续序列是 [1, 2, 3, 4]。它的长度为 4。
+
+解题思路
+参考了题解，哈希表看了半天没有理解，直接使用排序、去重然后对比是否连续的方法。
+要注意，在进行对比时，需要把数列为0和数列为1的单独区分。
+
+代码
+
+func longestConsecutive(nums []int) int {
+    n := len(nums)
+    if n <= 1 {
+        return n
+    }
+    sort.Ints(nums) // 排序
+    ret, tmp := 1, 1
+    for i, v := range nums {
+        //保证了0个和1个不进入
+        if i <= n-2 {
+            if v == nums[i + 1] { // 去重
+                continue
+            }
+            if v + 1 == nums[i + 1] { // 连续
+                tmp++
+                continue
+            }
+        }
+        if ret < tmp { // 保存最大值
+            ret = tmp
+        }
+        tmp = 1 // 初期话缓存
+    }
+    return ret
+}
+
+
+作者：wit1998
+链接：https://leetcode-cn.com/problems/longest-consecutive-sequence/solution/zui-chang-lian-xu-xu-lie-by-wit1998/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
