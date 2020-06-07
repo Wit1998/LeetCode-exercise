@@ -19,6 +19,7 @@ func hammingWeight(num uint32) int {
             count++
         }
         num /= 2
+        //换成 num = num >> 1 会更好
     }
     return count
 }
