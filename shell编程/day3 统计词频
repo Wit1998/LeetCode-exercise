@@ -1,0 +1,33 @@
+192. 统计词频
+写一个 bash 脚本以统计一个文本文件 words.txt 中每个单词出现的频率。
+为了简单起见，你可以假设：
+words.txt只包括小写字母和 ' ' 。
+每个单词只由小写字母组成。
+单词间由一个或多个空格字符分隔。
+示例:
+假设 words.txt 内容如下：
+the day is sunny the the
+the sunny is is
+你的脚本应当输出（以词频降序排列）：
+the 4
+is 3
+sunny 2
+day 1
+
+
+代码如下：
+
+cat words.txt | xargs -n1 | sort | uniq -c | sort -rn | awk '{print $2,$1}'
+
+cat 表示显示words.txt文件内容。
+xargs命令里面有多个工具的用法，其中 -n 表示在每行总输出几个元素
+sort就是排序命令（默认是按ascll码的升序排列和字符排序） -rn 表示变成降序排列和按照数字排序
+uniq用去取出连续的重复行 -c 表示统计重复的次数
+awk命令和xargs类似，里面包含了多个指令。其中就print
+print表示打印出内容，$2和$1表示先打印第2字段，再打印第一个字段,即先打印统计的数字，再打印单词字符
+
+
+作者：wit1998
+链接：https://leetcode-cn.com/problems/word-frequency/solution/tong-ji-ci-pin-by-wit1998/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
