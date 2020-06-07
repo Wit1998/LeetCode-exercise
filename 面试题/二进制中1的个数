@@ -1,0 +1,29 @@
+面试题15. 二进制中1的个数
+请实现一个函数，输入一个整数，输出该数二进制表示中 1 的个数。例如，把 9 表示成二进制是 1001，有 2 位是 1。因此，如果输入 9，则该函数输出 2。
+示例 1：
+输入：00000000000000000000000000001011
+输出：3
+解释：输入的二进制串 00000000000000000000000000001011 中，共有三位为 '1'。
+
+
+解题思路
+直接模2运算，取余数为1的
+
+代码
+
+func hammingWeight(num uint32) int {
+    count := 0
+    for num > 0 {
+        //取余数，只可能是0或1
+       if  num % 2 == 1 {
+            count++
+        }
+        num /= 2
+    }
+    return count
+}
+
+作者：wit1998
+链接：https://leetcode-cn.com/problems/er-jin-zhi-zhong-1de-ge-shu-lcof/solution/er-jin-zhi-zhong-1de-ge-shu-by-wit1998/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
