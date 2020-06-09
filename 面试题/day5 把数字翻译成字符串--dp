@@ -12,7 +12,7 @@
 两种解法：1.递归 2.滚动数组
 
 代码
-
+1.
 func translateNum(num int) int {
     if num < 10 {
         return 1
@@ -29,6 +29,31 @@ func translateNum(num int) int {
         res += translateNum(num / 10)
     }
     return res
+}
+
+
+2.
+func translateNum(num int) int {
+    //把num从int类型转换成字符串类型
+    str := strconv.Itoa(num)
+   
+    //r为啥默认为1，因为至少有一直转换方式
+    p, q, r := 0, 0, 1
+    for i := 0; i < len(str); i++ {
+    //p表示记录上一次的总次数，
+    // q表示记录这一次的总次数,得出结果赋值给下一次的p，
+    // r表示总次数得出结果赋值给下一次的q，然后清0
+        p, q, r = q, r, 0 
+        r += q
+        if i == 0 {
+            continue
+        }
+        temp := str[i - 1 : i + 1]
+        if temp <= "25" && temp >= "10" {
+            r += p
+        } 
+    }
+    return r
 }
 
 作者：wit1998
