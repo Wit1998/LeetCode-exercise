@@ -1,0 +1,61 @@
+面试题28. 对称的二叉树
+请实现一个函数，用来判断一棵二叉树是不是对称的。如果一棵二叉树和它的镜像一样，那么它是对称的。
+例如，二叉树 [1,2,2,3,4,4,3] 是对称的。
+    1
+   / \
+  2   2
+ / \ / \
+3  4 4  3
+但是下面这个 [1,2,2,null,3,null,3] 则不是镜像对称的:
+
+    1
+   / \
+  2   2
+   \   \
+   3    3
+示例 1：
+输入：root = [1,2,2,3,4,4,3]
+输出：true
+示例 2：
+输入：root = [1,2,2,null,3,null,3]
+输出：false
+限制：
+0 <= 节点个数 <= 1000
+
+解题思路
+主要就是递归的思路。具体可以使用深度优先搜索和广度优先搜索。
+
+代码
+
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func isSymmetric(root *TreeNode) bool {
+    for root == nil {
+        return true
+    }
+
+    return bfs(root.Left, root.Right)
+}
+func bfs(left *TreeNode, right *TreeNode) bool {
+    //如果左右同时为空，满足对称
+    if left == nil && right == nil {
+        return true
+    }
+    //如果有一边不为空，或者左右两边不相等
+    if left == nil || right == nil || left.Val != right.Val {
+        return false
+    }
+    //返回bfs的左右递归相交的bool结果
+    return bfs(left.Left, right.Right) && bfs(left.Right, right.Left)
+}
+
+作者：wit1998
+链接：https://leetcode-cn.com/problems/dui-cheng-de-er-cha-shu-lcof/solution/dui-cheng-de-er-cha-shu-by-wit1998/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
