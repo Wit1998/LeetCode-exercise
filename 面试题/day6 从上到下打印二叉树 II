@@ -1,0 +1,78 @@
+面试题32 - II. 从上到下打印二叉树 II
+从上到下按层打印二叉树，同一层的节点按从左到右的顺序打印，每一层打印到一行。
+
+ 
+
+例如:
+给定二叉树: [3,9,20,null,null,15,7],
+
+    3
+   / \
+  9  20
+    /  \
+   15   7
+返回其层次遍历结果：
+
+[
+  [3],
+  [9,20],
+  [15,7]
+]
+ 
+
+提示：
+
+节点总数 <= 1000
+
+
+解题思路
+和上一题一样，只是需要把存放值的一维数组变成二维，在一维数组保存当前层的值后，需要在二维数组中保存一维数组的值。然后输出该二维数组，就是遍历想要的结果了
+
+代码
+
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func levelOrder(root *TreeNode) [][]int {
+    if root == nil {
+        return nil
+    }
+    //创建一个queue队列，并把root的根节点放进去
+    queue := []*TreeNode{root}
+    //创建一个数组，用来存储从上到下打印的值
+    var res [][]int
+    i := 0
+    //如果queue取完，说明已经遍历完
+    for len(queue) != 0 {
+        //创建一个临时的temp队列，用来保存每一层孩子节点的值
+        temp := []*TreeNode{}
+        //res保存每一层
+        res = append(res, []int{})
+        //遍历queue的所有节点
+        for _,v := range queue {
+            //如果左右不为空，则保存
+            if v.Left != nil {
+                temp = append(temp, v.Left)
+            }
+            if v.Right != nil {
+                temp = append(temp, v.Right)
+            }
+            //res[i]保存每一层的每一个值
+            res[i] = append(res[i], v.Val)
+        }
+        i++
+        //让queue等于temp，进入下一层的遍历
+        queue = temp
+    }
+  return res
+}
+
+作者：wit1998
+链接：https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-ii-lcof/solution/cong-shang-dao-xia-da-yin-er-cha-shu-ii-by-wit1998/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
