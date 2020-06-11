@@ -1,0 +1,56 @@
+739. 每日温度
+根据每日 气温 列表，请重新生成一个列表，对应位置的输出是需要再等待多久温度才会升高超过该日的天数。如果之后都不会升高，请在该位置用 0 来代替。
+
+例如，给定一个列表 temperatures = [73, 74, 75, 71, 69, 72, 76, 73]，你的输出应该是 [1, 1, 4, 2, 1, 1, 0, 0]。
+
+提示：气温 列表长度的范围是 [1, 30000]。每个气温的值的均为华氏度，都是在 [30, 100] 范围内的整数。
+
+1.解题思路
+暴力的方法：直接两层for循环，找到的数存入res数组中，找不到则为默认的0值.
+func dailyTemperatures(T []int) []int {
+    //用来存放差值,长度和T相同，默认值为0
+	res := make([]int, len(T))
+    //遍历所有列表
+	for i:=0; i<len(T); i++ {
+        //拿当前列表在i位置上的温度和后面所有温度比较，如果有超过该天的温度，则记录值
+		for j:=i+1; j<len(T); j++ {
+			if T[j]>T[i] {
+				res[i] = j-i
+				break
+			}
+		}
+	}
+
+	return res
+}
+
+解题思路
+使用的是单调栈的方法。具体的巧妙之处是：能把未找到比当前温度高的数都存进栈中，如果找到符合条件的数，则按照先进后出的顺序出栈，一直出到不能出时，则开继续循环列表中的下一个数。
+
+代码
+
+func dailyTemperatures(T []int) []int {
+	stack := []int{}
+	ans := make([]int, len(T))
+
+	for i := 0; i < len(T); i++ {
+		temperature := T[i]
+        //如果找到当前temp值大于T后面的值时，则进入for循环,否则，直接添加i到stack
+		for len(stack) > 0 && temperature > T[stack[len(stack) - 1]] {
+			// 记录最后一个元素
+			prev := stack[len(stack)-1]
+			// 将最后一个元素出栈
+			stack = stack[:len(stack)-1]
+			ans[prev] = i - prev
+		}
+        //stack类似一个栈，用来存放进入的数字
+		stack = append(stack, i)
+	}
+
+	return ans
+}
+
+作者：wit1998
+链接：https://leetcode-cn.com/problems/daily-temperatures/solution/mei-ri-wen-du-by-wit1998/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
