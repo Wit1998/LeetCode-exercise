@@ -1,0 +1,70 @@
+15. 三数之和
+给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。
+
+注意：答案中不可以包含重复的三元组。
+
+ 
+
+示例：
+
+给定数组 nums = [-1, 0, 1, 2, -1, -4]，
+
+满足要求的三元组集合为：
+[
+  [-1, 0, 1],
+  [-1, -1, 2]
+]
+
+
+解题思路
+思路不难，就是简单的枚举，用start < index && index < end来实现。
+最需要注意的是，需要去重，不仅要去开始值和结尾值两个指针的重。还要去index的重
+去重操作，就是如果出现重复，则start变成index的前一位。看是否还有一个end值与之对应。
+
+代码
+
+func threeSum(nums []int) [][]int {
+    sort.Ints(nums)
+    var saveArray [][]int
+    //index为中间值
+    var index,start,end int
+    for index = 1; index < len(nums) - 1; index++{
+        start, end = 0,len(nums) - 1
+        //去重的关键步骤
+        //如果中间值和前一个值相等，则start直接变成中间值的前一个数
+        if index > 1 && nums[index] == nums[index-1]{
+            start = index - 1
+        }
+        //枚举。让中间值大于开始值，且中间值小于结尾值
+        for start < index && index < end{
+            //三数之和
+            addnum := nums[start] + nums[index] + nums[end]
+            //如果start和前一个值重复，则start++
+            if start>0 && nums[start] == nums[start-1]{
+                start++
+                continue
+            }
+            //如果end和后一个值重复，则end++
+            if end<len(nums)-1 && nums[end]==nums[end+1]{
+                end--
+                continue
+            }
+            //如果相等，则添加到数组
+            if addnum==0{
+                saveArray=append(saveArray,[]int{nums[start],nums[index],nums[end]})
+                start++
+                end--
+            }else if addnum>0{  
+                end--   
+            }else{
+                start++
+            }
+        }
+    }
+    return saveArray
+}
+
+作者：wit1998
+链接：https://leetcode-cn.com/problems/3sum/solution/san-shu-zhi-he-by-wit1998/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
