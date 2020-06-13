@@ -1,0 +1,47 @@
+面试题50. 第一个只出现一次的字符
+在字符串 s 中找出第一个只出现一次的字符。如果没有，返回一个单空格。 s 只包含小写字母。
+
+示例:
+
+s = "abaccdeff"
+返回 "b"
+
+s = "" 
+返回 " "
+
+
+解题思路
+要灵活的使用map的用法。
+
+代码
+
+func firstUniqChar(s string) byte {
+    bytes := []byte(s)
+    if len(s) == 0 {
+        return []byte(" ")[0]
+    }
+    //创建一个切片和map，切片用来存所有不同的字母，map用来比较
+     tempslice := make([]byte, len(s))
+     tempmap := make(map[byte]int, len(s))
+     for _,v := range bytes {
+         _, ok := tempmap[v]
+         if ok {    //说明在map中存在
+            tempmap[v]++    //在map中加一
+         }else {    //还不存在，先创建
+            tempslice = append(tempslice, v)
+            tempmap[v] = 1
+         }
+     } 
+     //遍历所有的tempslice，找到的字符中首个只出现一次的数
+    for _,v := range tempslice {
+        if tempmap[v] == 1 {
+            return v
+        }
+    }
+    return []byte(" ")[0]
+}
+
+作者：wit1998
+链接：https://leetcode-cn.com/problems/di-yi-ge-zhi-chu-xian-yi-ci-de-zi-fu-lcof/solution/di-yi-ge-zhi-chu-xian-yi-ci-de-zi-fu-by-wit1998/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
