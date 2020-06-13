@@ -1,0 +1,42 @@
+面试题38. 字符串的排列
+输入一个字符串，打印出该字符串中字符的所有排列。
+
+ 
+
+你可以以任意顺序返回这个字符串数组，但里面不能有重复元素。
+
+ 
+
+示例:
+
+输入：s = "abc"
+输出：["abc","acb","bac","bca","cab","cba"]
+
+
+func permutation(s string) []string {
+	var ret []string
+	var m = make(map[string]struct{})
+	bfs(s, ``, m)
+
+	for key := range m {
+		ret = append(ret, key)
+	}
+
+	return ret
+}
+
+func bfs(remained string, now string, m map[string]struct{}) {
+	if len(remained) == 0 {
+		m[now] = struct{}{}
+		return
+	}
+	for i := 0; i < len(remained); i++ {
+		s := remained[0:i] + remained[i+1:]
+		bfs(s, now+string(remained[i]), m)
+	}
+}
+
+作者：useleetcode
+链接：https://leetcode-cn.com/problems/zi-fu-chuan-de-pai-lie-lcof/solution/yan-du-you-xian-by-useleetcode/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
