@@ -1,0 +1,76 @@
+面试题45. 把数组排成最小的数
+输入一个非负整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。
+
+ 
+
+示例 1:
+
+输入: [10,2]
+输出: "102"
+示例 2:
+
+输入: [3,30,34,5,9]
+输出: "3033459"
+ 
+
+提示:
+
+0 < nums.length <= 100
+说明:
+
+输出结果可能非常大，所以你需要返回一个字符串而不是整数
+拼接起来的数字可能会有前导 0，最后结果不需要去掉前导 0
+
+
+解题思路
+代码是抄的
+思路：使用sort包中的interface接口中的方法。
+首先要声明一个实体类型Slice，让它实现interface接口中的len，less，swap三种方法。
+然后调用sort.Sort。实现你想要的排序方式。这里是按字符组合起来的大小排序
+
+代码
+
+//定义一个slice类型的切片，给SLice添加方法，使其满足interface接口
+type Slice []int
+//返回长度的方法
+func (p Slice) Len() int { 
+    return len(p) 
+}
+//比较大小的方法
+func (p Slice) Less(i, j int) bool {
+
+	istr := strconv.Itoa(p[i])
+	jstr := strconv.Itoa(p[j])
+
+	s1 := istr + jstr
+	s2 := jstr + istr
+
+	if s1 < s2 {
+		return true
+	}
+
+	return false
+
+}
+
+//交换字符的方法
+func (p Slice) Swap(i, j int) { p[i], p[j] = p[j], p[i] }
+
+func minNumber(nums []int) string {
+    //创建一个Slice类型的变量，并把nums赋值进去
+	var nums2 Slice = Slice(nums)
+    //使用sort中接口的方法，把nums2变成拼接起来数字最小的切片序列
+	sort.Sort(nums2)
+
+	var ret string
+	for _, num := range nums2 {
+		ret += strconv.Itoa(num)
+	}
+	return ret
+}
+
+
+作者：wit1998
+链接：https://leetcode-cn.com/problems/ba-shu-zu-pai-cheng-zui-xiao-de-shu-lcof/solution/ba-shu-zu-pai-cheng-zui-xiao-de-shu-by-wit1998/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
