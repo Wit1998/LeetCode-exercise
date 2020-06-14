@@ -48,6 +48,9 @@ func getres(m, n, k int) bool {
         res += n % 10
         n /= 10 
     }
+    
+    return res <= k
+}
 
 作者：wit1998
 链接：https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/solution/ji-qi-ren-de-yun-dong-fan-wei-by-wit1998/
