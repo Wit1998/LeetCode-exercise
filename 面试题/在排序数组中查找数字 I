@@ -1,0 +1,80 @@
+面试题53 - I. 在排序数组中查找数字 I
+统计一个数字在排序数组中出现的次数。
+
+ 
+
+示例 1:
+
+输入: nums = [5,7,7,8,8,10], target = 8
+输出: 2
+示例 2:
+
+输入: nums = [5,7,7,8,8,10], target = 6
+输出: 0
+ 
+
+限制：
+
+0 <= 数组长度 <= 50000
+
+
+解题思路1
+使用map，把值都遍历到map中，然后比较。
+
+代码
+
+func search(nums []int, target int) int {
+    numMap := make(map[int]int, 0)
+    for _,v := range nums {
+        if _, ok := numMap[v]; !ok {   //如果没有，添加到map
+            numMap[v] = 1
+        } else {    //如果有， numMap++
+            numMap[v]++
+        }
+    }
+    if num,ok := numMap[target]; ok {
+        return num
+    } else {
+        return 0
+    }
+    
+}
+
+
+解题思路
+双指针。
+因为排序好了，直接使用首尾指针。当首指针大于目标值时结束，当尾指针小于目标值是结束。当首或尾等于目标值时，res++。
+for循环外，当首指针大于尾指针时结束。
+
+代码
+
+func search(nums []int, target int) int {
+    //双指针来逼近目标值
+    i, j, res := 0, len(nums)-1, 0
+    for i <= j {
+        if nums[i] > target {
+            break
+        }
+        if nums[i] == target {
+            res++
+        }
+        if i == j {
+            break
+        }
+        i++
+        if nums[j] < target {
+            break
+        }
+        if nums[j] == target {
+            res++
+        }
+        j--
+    }
+    return res
+}
+
+
+作者：wit1998
+链接：https://leetcode-cn.com/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/solution/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-i-by-wit19/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
