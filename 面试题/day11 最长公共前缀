@@ -1,0 +1,77 @@
+14. 最长公共前缀
+编写一个函数来查找字符串数组中的最长公共前缀。
+
+如果不存在公共前缀，返回空字符串 ""。
+
+示例 1:
+
+输入: ["flower","flow","flight"]
+输出: "fl"
+示例 2:
+
+输入: ["dog","racecar","car"]
+输出: ""
+解释: 输入不存在公共前缀。
+说明:
+
+所有输入只包含小写字母 a-z 。
+
+
+解题思路1
+暴力解法，最简单的思路，最大的内存消耗。
+就是直接的横向查找
+
+代码
+
+func longestCommonPrefix(strs []string) string {
+    strSlice := make([]string, 0)
+    var str string
+    if len(strs) == 0 {
+        return ""
+    }
+    for _,v := range strs[0] {
+        strSlice = append(strSlice, string(v))
+    }
+
+    for i := 0; i < len(strs); i++ {
+        str = ""
+        for j,v := range strSlice {
+            if j < len(strs[i]) && v == string(strs[i][j]) { //说明匹配
+                str += v
+            } else {    //  不匹配了
+                strSlice = strSlice[ : j]
+                break
+                }
+    
+        }
+    }
+
+    return str
+}
+
+解题思路2
+纵向查找比横向查找要减少很多内存，减少了许多不必要的存储。
+
+代码
+
+func longestCommonPrefix(strs []string) string {
+    if len(strs) == 0 {
+        return ""
+    }
+    //纵向查找
+    for i := 0; i < len(strs[0]); i++ {
+        //从第二行第一列开始
+        for j := 1; j < len(strs); j++ {
+            //如果达到当前字符的最大长度，或者纵向的字符有不相等的,直接return
+            if i == len(strs[j]) || strs[j][i] != strs[0][i] {
+                return strs[0][ : i]
+            }
+        }
+    }
+    return strs[0]
+}
+
+作者：wit1998
+链接：https://leetcode-cn.com/problems/longest-common-prefix/solution/zui-chang-gong-gong-qian-zhui-by-wit1998/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
