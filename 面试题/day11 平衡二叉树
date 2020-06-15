@@ -53,6 +53,7 @@ func isBalanced(root *TreeNode) bool {
     }
     max_left := dfs(root.Left)
     max_right := dfs(root.Right)
+    //这一步是关键
     if math.Abs(float64(max_left -max_right)) <= 1 && 
     isBalanced(root.Left) && isBalanced(root.Right) {
         return true
