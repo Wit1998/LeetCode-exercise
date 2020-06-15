@@ -1,0 +1,70 @@
+面试题54. 二叉搜索树的第k大节点
+给定一棵二叉搜索树，请找出其中第k大的节点。
+
+ 
+
+示例 1:
+
+输入: root = [3,1,4,null,2], k = 1
+   3
+  / \
+ 1   4
+  \
+   2
+输出: 4
+示例 2:
+
+输入: root = [5,3,6,2,4,null,null,1], k = 3
+       5
+      / \
+     3   6
+    / \
+   2   4
+  /
+ 1
+输出: 4
+ 
+
+限制：
+
+1 ≤ k ≤ 二叉搜索树元素个数
+
+
+解题思路
+使用逆中序遍历，相比于中序遍历，一个是递增，一个是递减，显然递减比较方便
+
+代码
+
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+
+func kthLargest(root *TreeNode, k int) int {
+	count := make([]int, 0)
+	dfskthLargest(root, &count)
+    //第几大，就是k-1 
+	return count[k-1]
+}
+//逆中序遍历,得到递减数列，
+func dfskthLargest(root *TreeNode, count *[]int) {
+	if root.Right != nil {
+		dfskthLargest(root.Right, count)
+	}
+	if root != nil {
+		*count = append(*count, root.Val)
+	}
+	if root.Left != nil {
+		dfskthLargest(root.Left, count)
+	}
+}
+
+
+作者：wit1998
+链接：https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/solution/er-cha-sou-suo-shu-de-di-kda-jie-dian-by-wit1998/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
