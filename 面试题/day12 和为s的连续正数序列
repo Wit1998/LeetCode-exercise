@@ -20,3 +20,37 @@
 1 <= target <= 10^5
 
 
+解题思路
+也是滑动数组，从1开始算起，如果有，则添加全部，再找2是否有，以此类推，直到最左边的数等于右边的数。
+
+代码
+
+func findContinuousSequence(target int) [][]int {
+
+	left :=1
+	right :=2
+	var res [][]int
+	for left<right{
+        //等差求和公式,(首项+末项)*项数/2
+		sum :=(left+right)*(right-left+1)/2
+		if sum==target{
+			var list []int
+			for i:=left;i<=right;i++{
+				list = append(list,i)
+			}
+			res = append(res,list)
+			left++
+		}else if sum<target{
+			right++
+		}else {
+			left++
+		}
+	}
+	return res
+}
+
+
+作者：wit1998
+链接：https://leetcode-cn.com/problems/he-wei-sde-lian-xu-zheng-shu-xu-lie-lcof/solution/he-wei-sde-lian-xu-zheng-shu-xu-lie-by-wit1998/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
