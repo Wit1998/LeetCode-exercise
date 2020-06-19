@@ -22,7 +22,7 @@
 你可以假设 k 总是有效的，在输入数组不为空的情况下，1 ≤ k ≤ 输入数组的大小。
 
 
-解题思路
+解题思路1
 方法不难，时间复杂度有点大
 
 代码
@@ -47,6 +47,48 @@ func max(nums []int) int {
         }
     }
     return max
+}
+
+解题思路2
+保存了在数组中的最大值，速度快了很多。
+其中找最大值的函数，可以使用二分查找，应该更加快
+
+代码
+
+func maxSlidingWindow(nums []int, k int) []int { 
+    if len(nums) == 0 {
+        return nil
+    }
+    left, right := 0, k
+    arr := make([]int, 0)
+    maxindex := -1
+    for right <= len(nums) {
+        if maxindex < left {   //说明最大值出去了,重新找最大值
+        maxindex = left + max(nums[left : right])
+
+        } else {
+            if nums[maxindex] < nums[right - 1] {  //如果之前的最大值小于新添加进来的值
+                nums[maxindex] = nums[right - 1]
+                maxindex = right -1
+            } 
+        }
+        arr = append(arr, nums[maxindex])
+        left++
+        right++
+    }
+    return arr
+}
+func max(nums []int) int {
+    max := nums[0]
+    index := 0
+    for i, v := range nums {
+        if max < v {
+            max = v
+            index = i
+        }
+    }
+    //返回最大值的下标
+    return index
 }
 
 作者：wit1998
