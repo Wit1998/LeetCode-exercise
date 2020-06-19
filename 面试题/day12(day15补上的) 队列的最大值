@@ -1,0 +1,93 @@
+剑指 Offer 59 - II. 队列的最大值
+请定义一个队列并实现函数 max_value 得到队列里的最大值，要求函数max_value、push_back 和 pop_front 的均摊时间复杂度都是O(1)。
+
+若队列为空，pop_front 和 max_value 需要返回 -1
+
+示例 1：
+
+输入: 
+["MaxQueue","push_back","push_back","max_value","pop_front","max_value"]
+[[],[1],[2],[],[],[]]
+输出: [null,null,null,2,1,2]
+示例 2：
+
+输入: 
+["MaxQueue","pop_front","max_value"]
+[[],[],[]]
+输出: [null,-1,-1]
+ 
+
+限制：
+
+1 <= push_back,pop_front,max_value的总操作数 <= 10000
+1 <= value <= 10^5
+
+
+解题思路
+独立完成，不过时间复杂度很大，有点不符合题意。
+看了题解，发现max不单纯用数来存储，而是用数组来存储比较好，如果最大值被pop出，直接输出数组中第二个数即可。
+但是还有点疑惑，如果队列为[2,3,1].max队列为[3,2,1],pop两次，第一次不是取走的最大值，max不变，第二次取走的最大值，max=max[1:],所以max只变成了[2,1]，而不是[1]啊。
+不能理解。
+
+代码
+
+type MaxQueue struct {
+    max int
+    arr []int
+}
+
+//给队列初始化
+func Constructor() MaxQueue {
+    return MaxQueue {
+        -1,
+        make([]int, 0),
+    }
+}
+
+//当前队列最大值
+func (this *MaxQueue) Max_value() int { 
+    return this.max
+}
+
+//进队列
+func (this *MaxQueue) Push_back(value int)  {
+    this.arr = append(this.arr, value)
+    if this.max < value {
+        this.max = value
+    }
+
+}
+
+//出队列
+func (this *MaxQueue) Pop_front() int {
+    //如果队列为空，则返回-1
+    if len(this.arr) == 0 {
+        return -1
+    } 
+    //如果出队列的是最大值，则重新找最大值
+    if this.max == this.arr[0] {
+        this.max = -1
+        for _,v := range this.arr[1:] {
+            if this.max < v {
+                this.max = v 
+            }
+        }
+    }
+    pop := this.arr[0]
+    this.arr = this.arr[1 : ]
+    return pop
+}
+
+
+/**
+ * Your MaxQueue object will be instantiated and called as such:
+ * obj := Constructor();
+ * param_1 := obj.Max_value();
+ * obj.Push_back(value);
+ * param_3 := obj.Pop_front();
+ */
+
+作者：wit1998
+链接：https://leetcode-cn.com/problems/dui-lie-de-zui-da-zhi-lcof/solution/dui-lie-de-zui-da-zhi-by-wit1998/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
