@@ -1,0 +1,38 @@
+剑指 Offer 65. 不用加减乘除做加法
+写一个函数，求两个整数之和，要求在函数体内不得使用 “+”、“-”、“*”、“/” 四则运算符号。
+
+ 
+
+示例:
+
+输入: a = 1, b = 1
+输出: 2
+ 
+
+提示：
+
+a, b 均可能是负数或 0
+结果不会溢出 32 位整数
+
+
+解题思路
+使用位运算，要了解位运算如何表示
+a ^ b 表示 a和b使用二进制的方式运算，且不考虑进位
+a & b << 表示a和b使用二进制的方式运算，且只考虑进位的数
+
+代码
+
+func add(a int, b int) int {
+    for b != 0 {
+        tmp := a ^ b
+        carry := a & b << 1
+        a = tmp
+        b = carry
+    }
+    return a
+}
+
+作者：wit1998
+链接：https://leetcode-cn.com/problems/bu-yong-jia-jian-cheng-chu-zuo-jia-fa-lcof/solution/bu-yong-jia-jian-cheng-chu-zuo-jia-fa-by-wit1998/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
